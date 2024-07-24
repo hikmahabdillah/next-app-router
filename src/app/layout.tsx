@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./navbar";
+import { usePathname,useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,11 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [state, setState] = useState(0);
+  const pathname = usePathname();
+  // const router = useRouter();
+  const disableNav = ['/login', '/register'];
 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Navbar/>
+        {!disableNav.includes(pathname) && <Navbar/>}
         {/* <p>layout click count : {state}</p>
         <button onClick={() => setState(state + 1)}>Click</button> */}
         {children}
