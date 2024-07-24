@@ -1,6 +1,19 @@
+"use client";
 import Link from "next/link";
 
 export default function LoginPage() {
+  const handleLogin = (e: any) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    
+    fetch("/api/auth/login", {method: "POST", headers: {
+      "Content-Type": "application/json",
+    }, body: JSON.stringify({
+      email: form.email.value,
+      password: form.password.value,
+    })}).then(()=>form.reset())
+  }
+
   return (
     <div className="flex min-h-screen items-center justify-center">
       <div className="flex w-full h-full justify-center px-6 my-12">
@@ -12,9 +25,9 @@ export default function LoginPage() {
             style={{ backgroundImage: "url('https://i.pinimg.com/736x/aa/d3/d6/aad3d691d8d8592bb8dd240de636f6a9.jpg')" }}
           ></div>
           {/* <!-- Col --> */}
-          <div className="h-full flex flex-col justify-center items-center lg:w-1/2 bg-white p-5 rounded-xl lg:rounded-l-none">
+          <div className="w-full h-full flex flex-col justify-center items-center lg:w-1/2 bg-white p-5 rounded-xl lg:rounded-l-none">
             <h3 className="pt-4 font-bold text-2xl text-center text-neutral-800">Welcome Back!</h3>
-            <form className="w-full px-8 pt-6 mb-4 bg-white rounded">
+            <form className="w-full px-8 pt-6 mb-4 bg-white rounded" onSubmit={(e) => handleLogin(e)}>
               <div className="mb-4">
                 <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
                   Email
@@ -47,7 +60,7 @@ export default function LoginPage() {
               <div className="mb-6 text-center">
                 <button
                   className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                  type="button"
+                  type="submit"
                 >
                   Sign In
                 </button>
