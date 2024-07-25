@@ -44,6 +44,22 @@ export async function GET(request: NextRequest) {
       image:
         "https://www.adidas.co.id/media/catalog/product/cache/3bec5fdb79d91223b1a151be2b21ce8d/j/i/ji4317_2_footwear_photography_side20lateral20view_grey.jpg",
     },
+    {
+      id: 5,
+      title: "adidas Sleek Shoes",
+      category: "Shoes",
+      price: 100,
+      image:
+        "https://www.adidas.co.id/media/catalog/product/cache/3bec5fdb79d91223b1a151be2b21ce8d/i/h/ih1298_2_footwear_photography_side20lateral20view_grey.jpg",
+    },
+    {
+      id: 6,
+      title: "adidas Sleek Shoes",
+      category: "Shoes",
+      price: 100,
+      image:
+        "https://www.adidas.co.id/media/catalog/product/cache/3bec5fdb79d91223b1a151be2b21ce8d/i/h/ih1298_2_footwear_photography_side20lateral20view_grey.jpg",
+    },
   ];
 
   if (id) {

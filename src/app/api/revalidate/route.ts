@@ -3,10 +3,15 @@ import { revalidateTag } from "next/cache";
 
 export async function POST(request: NextRequest){
   const tag = request.nextUrl.searchParams.get('tag');
+  const secret = request.nextUrl.searchParams.get('secret');
+
+  if(secret !== process.env.SECRET_KEY){
+    return NextResponse.json({message: 'invalid secret'}, {status: 401});
+  }
 
   if(!tag){
-  return NextResponse.json({status: 400, message: 'Missing tag params'});
+    return NextResponse.json({message: 'Missing tag params'}, {status: 400});
   }
   revalidateTag(tag);
-  return NextResponse.json({revalidate: true, now: Date.now(), status: 200, message: 'revalidate success'});
+  return NextResponse.json({ revalidate: true, now: Date.now(), message: 'Revalidate success' }, { status: 200 });
 }
