@@ -3,7 +3,10 @@ import ProductCard from './cardProduct';
 type ProductProps = {params: { slug: string[]}}
 
 async function getData(){
-  const res = await fetch('https://fakestoreapi.com/products');
+  // const res = await fetch('https://fakestoreapi.com/products');
+  const res = await fetch('http://localhost:3000/api/product', {
+    cache: "force-cache",
+  });
   if(!res.ok){
     throw new Error('failed to fetch data!')
   }
@@ -17,13 +20,12 @@ export default async function ProductPage(props: ProductProps) {
     <div className="flex min-h-screen flex-col gap-4 items-center p-5">
       <h1>{params?.slug ? "Detail Product Page" : "Product Page"}</h1>
       <div className="flex justify-center gap-5 flex-wrap">
-        {dataProducts?.length > 0 && dataProducts.map((product: any) => (
+        {dataProducts?.data.length > 0 && dataProducts?.data.map((product: any) => (
           <ProductCard 
             key={product.id} 
             title={product.title} 
             price={product.price} 
-            category={product.category} 
-            description={product.description}
+            category={product.category}
             image={product.image}
           />
         ))}
