@@ -1,6 +1,6 @@
 export default async function Loading() {
   async function getData() {
-    const res = await fetch('https://fakestoreapi.com/products');
+    const res = await fetch('http://localhost:3000/api/product');
     if (!res.ok) {
       throw new Error('failed to fetch data!')
     }

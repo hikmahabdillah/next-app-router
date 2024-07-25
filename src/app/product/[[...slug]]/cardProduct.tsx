@@ -19,9 +19,9 @@ const ProductCard: React.FC = ({key, title, price, description, category, image}
             {title}
           </p>
         </div>
-        <p className="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-75 text-ellipsis line-clamp-2">
+        {/* <p className="block font-sans text-sm font-normal leading-normal text-gray-700 opacity-75 text-ellipsis line-clamp-2">
           {description.slice(0, 130)}...
-        </p>
+        </p> */}
       </div>
       <div className="p-6 pt-0 flex items-center justify-between">
           <p className="block font-sans text-2xl font-bold leading-relaxed text-blue-gray-900 antialiased">
