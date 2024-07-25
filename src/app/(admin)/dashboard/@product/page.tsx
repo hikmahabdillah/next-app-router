@@ -17,7 +17,7 @@ export default function AdminProductPage() {
     }
   }
   return (
-    <div>
+    <div className="w-1/2 h-96 bg-gray-300 rounded-xl flex justify-center items-center">
       <h1>{status}</h1>
       <button className="m-5 bg-slate-50 px-3 py-2 rounded-lg text-neutral-800" onClick={() => revalidate()}>Revalidate</button>
     </div>
