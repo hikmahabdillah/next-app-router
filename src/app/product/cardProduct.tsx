@@ -1,9 +1,19 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
-const ProductCard: React.FC = ({key, title, price, description, category, image}) => {
+const ProductCard: React.FC = (props) => {
+  const {id, title, price, description, category, image, isDetail} = props;
+  const ElementItem = ({children}: any) => {
+    return isDetail ? <div  className="relative flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md" key={id}>
+      {children}
+    </div> : <Link href={`/product/detail/${id}`} className="relative flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md" key={id}>
+      {children}
+    </Link>
+  }
+
   return (
-    <div className="relative flex w-96 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md" key={key}>
+    <ElementItem>
       <div className="relative mx-4 mt-4 h-80 overflow-hidden rounded-xl bg-white bg-clip-border text-gray-700">
         <Image
           src={image}
@@ -34,7 +44,7 @@ const ProductCard: React.FC = ({key, title, price, description, category, image}
           Add to Cart
         </button>
       </div>
-    </div>
+    </ElementItem>
   );
 }
 
