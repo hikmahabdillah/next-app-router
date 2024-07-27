@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./navbar";
 import { usePathname,useRouter } from "next/navigation";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [state, setState] = useState(0);
   const pathname = usePathname();
   // const router = useRouter();
   const disableNav = ['/login', '/register'];
@@ -26,10 +26,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <SessionProvider>
         {!disableNav.includes(pathname) && <Navbar/>}
-        {/* <p>layout click count : {state}</p>
-        <button onClick={() => setState(state + 1)}>Click</button> */}
         {children}
+        </SessionProvider>
       </body>
     </html>
   );
