@@ -1,6 +1,35 @@
+"use client"
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function RegisterPage() {
+  const {push} = useRouter();
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e:any) => {
+    setError("");
+    setIsLoading(true);
+    e.preventDefault();
+    const res = await fetch('/api/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: e.target.username.value,
+        email: e.target.email.value,
+        password: e.target.password.value,
+      })
+    })
+    if(res.status === 200){
+      e.target.reset();
+      setIsLoading(false);
+      push('/login');
+    }else{
+      setError("Email Already Exists");
+      setIsLoading(false);
+    }
+  }
+
   return(
     <div className="flex min-h-screen items-center justify-center">
     <div className="flex w-full h-full justify-center px-6 my-12">
@@ -14,7 +43,8 @@ export default function RegisterPage() {
         {/* <!-- Col --> */}
         <div className="w-full h-full flex flex-col justify-center items-center lg:w-1/2 bg-white p-5 rounded-xl lg:rounded-l-none">
           <h3 className="pt-4 font-bold text-2xl text-center text-neutral-800">Create An Account!</h3>
-          <form className="w-full px-8 pt-6 mb-4 bg-white rounded">
+          {error !== '' && <p className="text-red-600">{error}</p>}
+          <form className="w-full px-8 pt-6 mb-4 bg-white rounded" onSubmit={(e)=> handleSubmit(e)}>
             <div className="mb-4">
               <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="username">
                 Username
@@ -22,6 +52,7 @@ export default function RegisterPage() {
               <input
                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 id="username"
+                name="username"
                 type="text"
                 placeholder="Username"
               />
@@ -33,6 +64,7 @@ export default function RegisterPage() {
                 <input
                   className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                   id="email"
+                  name="email"
                   type="email"
                   placeholder="email"
                 />
@@ -44,6 +76,7 @@ export default function RegisterPage() {
               <input
                 className="w-full px-3 py-2 mb-3 text-sm leading-tight text-gray-700  border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 id="password"
+                name="password"
                 type="password"
                 placeholder="******************"
               />
@@ -58,9 +91,9 @@ export default function RegisterPage() {
             <div className="mb-6 text-center">
               <button
                 className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                type="button"
+                type="submit" disabled={isLoading}
               >
-                Sign Up
+                {isLoading ? "Loading..." : "Sign Up"}
               </button>
             </div>
             <hr className="mb-6 border-t" />
