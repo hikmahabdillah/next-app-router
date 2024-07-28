@@ -1,0 +1,22 @@
+import { getToken } from "next-auth/jwt";
+import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from "next/server";
+
+export default function withAuth(middleware: NextMiddleware, requireAuth: string[] = []){
+  return async (req: NextRequest, next: NextFetchEvent) => {
+    const pathname = req.nextUrl.pathname;
+
+    // url that requires authentication
+    if(requireAuth.includes(pathname)){
+      const token = await getToken({
+        req, secret: process.env.NEXTAUTH_SECRET,
+      })
+      if(!token){
+        // if not logged in redirect to /login
+        const url = new URL('/login', req.url);
+        url.searchParams.set('callbackUrl', encodeURI(req.url)); // returns to the last opened url
+        return NextResponse.redirect(url);
+      }
+    }
+    return middleware(req, next);
+  }
+}
