@@ -1,4 +1,12 @@
-import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home | Particle",
+  description: "Create Next App",
+  authors: [{ name: 'Aldrin', url: 'https://nextjs.org' }],
+  keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript'],
+  applicationName: 'Next App Router',
+};
 
 export default function Home() {
   return (
