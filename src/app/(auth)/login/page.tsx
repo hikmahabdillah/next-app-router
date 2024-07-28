@@ -87,6 +87,12 @@ export default function LoginPage({searchParams}: any) {
                 >
                   {isLoading ? "Loading..." : "Sign In"}
                 </button>
+                <button
+                  className="mt-5 w-full px-4 py-2 font-bold text-neutral-800 bg-slate-50 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+                  type="button" disabled={isLoading} onClick={()=> signIn('google', {callbackUrl: callbackURL, redirect:false})}
+                >
+                  {isLoading ? "Loading..." : "Sign In with Google"}
+                </button>
               </div>
               <hr className="mb-6 border-t" />
               <div className="text-sm text-center text-neutral-800">
