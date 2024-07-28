@@ -1,24 +1,34 @@
 "use client";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import {useState} from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const {push} = useRouter();
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLogin = async(e: any) => {
+    setError("");
+    setIsLoading(true);
     e.preventDefault();
-    const form = e.currentTarget;
     try{
       const res = await signIn("credentials", {
-        redurect: false,
+        redirect: false,
         email: e.target.email.value,
         password: e.target.password.value,
         callbackUrl: '/dashboard'
       })
       if(!res?.error){
+        e.target.reset();
+        setIsLoading(false);
         push("/dashboard");
       } else{
-        console.log(res.error);
+        setIsLoading(false);
+        if(res.status === 401){
+          setError("Username or Password is incorrect");
+        }
       }
     }catch(e){  
       console.log(e)
@@ -38,6 +48,7 @@ export default function LoginPage() {
           {/* <!-- Col --> */}
           <div className="w-full h-full flex flex-col justify-center items-center lg:w-1/2 bg-white p-5 rounded-xl lg:rounded-l-none">
             <h3 className="pt-4 font-bold text-2xl text-center text-neutral-800">Welcome Back!</h3>
+            {error !== '' && <p className="text-red-600">{error}</p>}
             <form className="w-full px-8 pt-6 mb-4 bg-white rounded" onSubmit={(e) => handleLogin(e)}>
               <div className="mb-4">
                 <label className="block mb-2 text-sm font-bold text-gray-700" htmlFor="email">
@@ -71,9 +82,9 @@ export default function LoginPage() {
               <div className="mb-6 text-center">
                 <button
                   className="w-full px-4 py-2 font-bold text-white bg-blue-500 rounded-full hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                  type="submit"
+                  type="submit" disabled={isLoading}
                 >
-                  Sign In
+                  {isLoading ? "Loading..." : "Sign In"}
                 </button>
               </div>
               <hr className="mb-6 border-t" />
