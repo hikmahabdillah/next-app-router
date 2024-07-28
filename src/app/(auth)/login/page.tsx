@@ -4,7 +4,8 @@ import Link from "next/link";
 import {useState} from "react";
 import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function LoginPage({searchParams}: any) {
+  const callbackURL = searchParams.callbackUrl;
   const {push} = useRouter();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -18,12 +19,12 @@ export default function LoginPage() {
         redirect: false,
         email: e.target.email.value,
         password: e.target.password.value,
-        callbackUrl: '/dashboard'
+        callbackUrl:  callbackURL
       })
       if(!res?.error){
         e.target.reset();
         setIsLoading(false);
-        push("/dashboard");
+        push(callbackURL);
       } else{
         setIsLoading(false);
         if(res.status === 401){
