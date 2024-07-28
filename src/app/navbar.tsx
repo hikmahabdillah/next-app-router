@@ -24,8 +24,12 @@ export default function Navbar() {
         </Link>
       </ul>
       </div>
-      {session && session.user && <p>{session.user.name}</p>}
-      {status === 'authenticated' ? (<button onClick={()=> signOut()} className="px-3 py-2 rounded-md bg-blue-500 text-slate-50">Logout</button>) : (<button onClick={()=> signIn()} className="px-3 py-2 rounded-md bg-blue-500 text-slate-50">Login</button>)}
+      {status === 'authenticated' && session?.user?.username && <p>{session.user.username}</p>}
+      {status === 'authenticated' ? (
+        <button onClick={() => signOut()} className="px-3 py-2 rounded-md bg-blue-500 text-slate-50">Logout</button>
+      ) : (
+        <button onClick={() => signIn()} className="px-3 py-2 rounded-md bg-blue-500 text-slate-50">Login</button>
+      )}
     </nav>
   );
 }
