@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./navbar";
-import { usePathname,useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -14,15 +14,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
-  // const router = useRouter();
-  const disableNav = ['/login', '/register'];
+  const [showNavbar, setShowNavbar] = useState(true);
+  
+  useEffect(() => {
+    const disableNav = ['/login', '/register'];
+    const validRoutes = ['/dashboard', '/profile', '/about', '/about/profile', '/product', '/product/detail'];
+    const isDisableNav = disableNav.includes(pathname);
+    const isValidRoute = validRoutes.some(route => pathname.startsWith(route));
+
+    if (isDisableNav || (!isValidRoute && pathname !== '/')) {
+      setShowNavbar(false);
+    } else {
+      setShowNavbar(true);
+    }
+  }, [pathname]);
 
   return (
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider>
-        {!disableNav.includes(pathname) && <Navbar/>}
-        {children}
+          {showNavbar && <Navbar />}
+          {children}
         </SessionProvider>
       </body>
     </html>
