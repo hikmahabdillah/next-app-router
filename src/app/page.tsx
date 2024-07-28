@@ -6,6 +6,9 @@ export const metadata: Metadata = {
   authors: [{ name: 'Aldrin', url: 'https://nextjs.org' }],
   keywords: ['Next.js', 'React', 'JavaScript', 'TypeScript'],
   applicationName: 'Next App Router',
+  icons: {
+    icon: './img/icon.png'
+  }
 };
 
 export default function Home() {
