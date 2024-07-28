@@ -5,8 +5,6 @@ export default function AdminProductPage() {
   const [status, setStatus] = useState("");
   const revalidate = async () => {
     const res = await fetch('http://localhost:3000/api/revalidate?tag=products&secret=195044', {method: 'POST'});
-
-    console.log(res);
     if(!res.ok){
       setStatus("Revalidate Failed");
     }else{
