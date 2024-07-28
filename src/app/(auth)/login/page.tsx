@@ -5,7 +5,7 @@ import {useState} from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage({searchParams}: any) {
-  const callbackURL = searchParams.callbackUrl;
+  const callbackURL = searchParams.callbackUrl || '/';
   const {push} = useRouter();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
